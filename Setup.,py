@@ -1,0 +1,196 @@
+import time
+import re
+import hashlib
+from collections import defaultdict
+from datetime import datetime
+
+# =============================
+# COLORS
+# =============================
+PINK = "\033[95m"
+GREEN = "\033[92m"
+YELLOW = "\033[93m"
+RED = "\033[91m"
+RESET = "\033[0m"
+
+# =============================
+# LOGGER
+# =============================
+def log_event(event, message):
+    with open("allinian_security.log", "a") as f:
+        f.write(f"[{datetime.now()}] [{event}] {message}\n")
+
+# =============================
+# BANNER
+# =============================
+def banner():
+    print(PINK + """
+╔════════════════════════════════════════════════════╗
+║        ALLINIAN SOCIAL ACCOUNT TOOL                 ║
+║        Created by Allin Isla Minde                  ║
+║        Facebook: Hackrate.Inc                       ║
+║        Defensive Security Framework                 ║
+╚════════════════════════════════════════════════════╝
+""" + RESET)
+
+# =============================
+# MOCK DATA
+# =============================
+USERS = {"alice": "Password123!"}
+failed_attempts = defaultdict(int)
+lockout_until = {}
+
+# =============================
+# 1. BRUTE FORCE SIMULATOR (DEFENSIVE)
+# =============================
+def brute_force_simulator():
+    print("\n[ Brute-Force Detection Simulation ]")
+    username = "alice"
+    ip = "192.168.1.10"
+    passwords = ["123456", "password", "admin", "Password123!"]
+
+    for pwd in passwords:
+        failed_attempts[username] += 1
+        log_event("BRUTE_FORCE", f"{ip} tried {pwd}")
+        print(f"Trying '{pwd}'")
+
+        if failed_attempts[username] >= 3:
+            print(RED + "Brute-force detected! Account locked." + RESET)
+            break
+        time.sleep(0.5)
+
+# =============================
+# 2. DEFENSIVE LOGIN
+# =============================
+def defensive_login():
+    user = input("Username: ")
+    pwd = input("Password: ")
+
+    if user in USERS and USERS[user] == pwd:
+        print(GREEN + "Login successful" + RESET)
+        log_event("LOGIN_SUCCESS", user)
+    else:
+        print(RED + "Login failed" + RESET)
+        log_event("LOGIN_FAILED", user)
+
+# =============================
+# 3. PASSWORD STRENGTH
+# =============================
+def password_strength():
+    pwd = input("Enter password to test: ")
+    score = 0
+
+    if len(pwd) >= 12: score += 2
+    if re.search(r"[A-Z]", pwd): score += 1
+    if re.search(r"[a-z]", pwd): score += 1
+    if re.search(r"[0-9]", pwd): score += 1
+    if re.search(r"[!@#$%^&*]", pwd): score += 1
+
+    log_event("PASSWORD_CHECK", f"Score={score}")
+
+    if score >= 5:
+        print(GREEN + "Strong password" + RESET)
+    elif score >= 3:
+        print(YELLOW + "Medium password" + RESET)
+    else:
+        print(RED + "Weak password" + RESET)
+
+# =============================
+# 4. MFA / OTP SIMULATOR (SAFE)
+# =============================
+def mfa_simulator():
+    print("\n1. Authenticator App")
+    print("2. SMS OTP")
+    print("3. No MFA")
+
+    choice = input("Choose MFA: ")
+
+    if choice == "1":
+        print(GREEN + "Strong MFA enabled" + RESET)
+    elif choice == "2":
+        print(YELLOW + "SMS OTP vulnerable to SIM swap" + RESET)
+    else:
+        print(RED + "No MFA – High risk" + RESET)
+
+    log_event("MFA", choice)
+
+# =============================
+# 5. ACCOUNT SECURITY AUDIT
+# =============================
+def security_audit():
+    risk = 0
+    if any(v >= 3 for v in failed_attempts.values()):
+        risk += 3
+
+    log_event("AUDIT", f"Risk={risk}")
+
+    if risk >= 4:
+        print(RED + "HIGH RISK ACCOUNT" + RESET)
+    elif risk >= 2:
+        print(YELLOW + "MEDIUM RISK ACCOUNT" + RESET)
+    else:
+        print(GREEN + "LOW RISK ACCOUNT" + RESET)
+
+# =============================
+# 6. PHISHING DETECTOR (EDUCATIONAL)
+# =============================
+def phishing_detector():
+    email = input("Paste suspicious message: ").lower()
+    keywords = ["verify", "urgent", "login", "click", "password"]
+
+    score = sum(1 for k in keywords if k in email)
+    log_event("PHISHING_SCAN", f"Score={score}")
+
+    if score >= 3:
+        print(RED + "Likely phishing attempt detected!" + RESET)
+    else:
+        print(GREEN + "Message appears safe" + RESET)
+
+# =============================
+# 7. HASH TOOL
+# =============================
+def hash_tool():
+    text = input("Enter text to hash: ")
+    print("\nMD5:", hashlib.md5(text.encode()).hexdigest())
+    print("SHA1:", hashlib.sha1(text.encode()).hexdigest())
+    print("SHA256:", hashlib.sha256(text.encode()).hexdigest())
+    log_event("HASH", "Generated hashes")
+
+# =============================
+# MENU
+# =============================
+def menu():
+    while True:
+        print("""
+1. Brute-Force Simulator (Defensive)
+2. Defensive Social Account Login
+3. Password Strength Checker
+4. MFA / OTP Simulator
+5. Allinian Social Account Auditor
+6. Phishing Detection Tool
+7. Hash Generator
+8. View Log File Location
+0. Exit
+""")
+        choice = input("Select option: ")
+
+        if choice == "1": brute_force_simulator()
+        elif choice == "2": defensive_login()
+        elif choice == "3": password_strength()
+        elif choice == "4": mfa_simulator()
+        elif choice == "5": security_audit()
+        elif choice == "6": phishing_detector()
+        elif choice == "7": hash_tool()
+        elif choice == "8":
+            print("Logs saved in allinian_security.log")
+        elif choice == "0":
+            break
+        else:
+            print("Invalid option")
+
+# =============================
+# MAIN
+# =============================
+if __name__ == "__main__":
+    banner()
+    menu()
