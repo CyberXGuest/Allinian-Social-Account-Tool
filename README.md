@@ -84,4 +84,4 @@ No root access required.
 
 
 
-🚀 Optional: Make it executable (Linux/Kali)
+ Optional: Make it executable (Linux/Kali)
