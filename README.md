@@ -14,7 +14,9 @@ OK This is how to INSTALL the Allinian Social Account Tool
  Terminal / Command Prompt
 
 2. Check Python:
+ 
   python3 --version
+  
 Allinian-Social-Account-Tool/
 │
 ├── allinian_social_account_tool.py
@@ -22,8 +24,8 @@ Allinian-Social-Account-Tool/
 ├── allinian_security.log   (auto-created)
 └── README.md
 
-3. Download / clone the tool
-4. 
+4. Download / clone the tool
+5. 
 git clone https://github.com/yourusername/Allinian-Social-Account-Tool.git
 
 cd Allinian-Social-Account-Tool
@@ -77,6 +79,7 @@ tail -f allinian_security.log
 8. Optional: Make it executable (Linux/Kali)
    
 chmod +x allinian_social_account_tool.py
+
 ./allinian_social_account_tool.py
 
 
@@ -87,3 +90,7 @@ No root access required.
 
 
  Optional: Make it executable (Linux/Kali)
+
+ chmod +x allinian_social_account_tool.py
+./allinian_social_account_tool.py
+
