@@ -26,7 +26,7 @@ Allinian-Social-Account-Tool/
 
 4. Download / clone the tool
 5. 
-git clone https://github.com/yourusername/Allinian-Social-Account-Tool.git
+git clone https://github.com/CyberXGuest/Allinian-Social-Account-Tool.git
 
 cd Allinian-Social-Account-Tool
 
